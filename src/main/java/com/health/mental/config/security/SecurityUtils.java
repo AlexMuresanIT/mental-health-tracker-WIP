@@ -11,6 +11,9 @@ public final class SecurityUtils {
   }
 
   public static String getUserIpAddress(final HttpServletRequest request) {
+    if (request == null) {
+      return DEFAULT_IP_ADDRESS_HEADER;
+    }
     final var ipAddress = request.getHeader("X-Forwarded-For");
     if (ipAddress == null || ipAddress.isEmpty()) {
       return INVALID_IP_ADDRESS.equals(request.getRemoteAddr())

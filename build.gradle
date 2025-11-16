@@ -3,6 +3,7 @@ plugins {
 	id 'org.springframework.boot' version '3.5.6'
 	id 'io.spring.dependency-management' version '1.1.7'
 	id 'com.diffplug.spotless' version '6.25.0'
+    id 'org.openapi.generator' version '7.17.0'
 }
 
 group = 'com.health'
@@ -21,6 +22,8 @@ repositories {
 
 ext{
     mapStructVersion = "1.6.3"
+    springdocOpenapiUiVersion = "2.3.0"
+    wiremockSpringBootVersion = "3.0.2"
 }
 
 dependencies {
@@ -30,12 +33,15 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation "org.mapstruct:mapstruct:${mapStructVersion}"
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${springdocOpenapiUiVersion}"
+    implementation "org.openapitools:jackson-databind-nullable:0.2.6"
 
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.graphql:spring-graphql-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation "org.wiremock.integrations:wiremock-spring-boot:${wiremockSpringBootVersion}"
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
@@ -43,9 +49,40 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
+openApiGenerate {
+    generatorName.set('spring')
+    configOptions.set([
+            title: "Mental Health App API",
+            library: 'spring-boot',
+            useTags: 'true',
+            useJakartaEe: 'true'
+    ])
+    inputSpec.set("$projectDir/src/main/resources/mental-api.yml")
+    modelPackage.set("com.health.generated.model")
+    apiPackage.set("com.health.generated.api")
+    outputDir.set(layout.buildDirectory.dir('openapi').get().toString())
+    validateSpec.set(true)
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir file("${project.buildDir.path}/openapi/src/main/java")
+        }
+    }
+}
+
+tasks.named('compileJava') {
+    dependsOn tasks.named('openApiGenerate')
+}
+
 spotless {
     java {
         target 'src/**/*.java'
         googleJavaFormat()
     }
+}
+
+springBoot {
+    mainClass = 'com.health.mental.MentalApplication'
 }

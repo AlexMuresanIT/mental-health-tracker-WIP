@@ -1,6 +1,6 @@
 package com.health.mental.domain;
 
-public enum MoodTags {
+public enum MoodTag {
   WORK,
   FAMILY,
   FRIENDS,

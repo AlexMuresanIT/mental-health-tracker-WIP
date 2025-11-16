@@ -3,6 +3,7 @@ package com.health.mental.service;
 import com.health.mental.domain.MoodLog;
 import com.health.mental.repository.MoodLogRepository;
 import java.time.OffsetDateTime;
+import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -32,5 +33,9 @@ public class MoodLogService {
           moodLogRepository.save(enhancedMoodLog);
           userService.saveMoodLogForUser(user, enhancedMoodLog);
         });
+  }
+
+  public List<MoodLog> getAllMoodLogsForUserId(final String userId) {
+    return moodLogRepository.findAllByUserId(userId);
   }
 }

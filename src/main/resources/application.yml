@@ -15,3 +15,10 @@ mental-health:
     username: ${USERNAME}
     password: ${PASSWORD}
   location-base-url: http://ip-api.com/json/
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html

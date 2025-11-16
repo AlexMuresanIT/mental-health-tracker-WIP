@@ -1,8 +1,6 @@
 package com.health.mental.domain.dto;
 
 public record LocationDTO(
-    String query,
-    String status,
     String country,
     String countryCode,
     String region,

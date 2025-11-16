@@ -1,0 +1,131 @@
+openapi: "3.0.1"
+info:
+  title: Mental Health API documentation
+  description: REST API for mental health support services
+  version: "1.0.0"
+servers:
+  - url: http://localhost:9090
+
+paths:
+  /api/mood-log/{userId}:
+    post:
+      tags:
+        - 'mood-log'
+      operationId: addMoodLogForUserId
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/MoodLogRequest'
+      responses:
+        "200":
+            description: 'Mood log added successfully'
+        "400":
+            description: 'Bad request'
+        "500":
+            description: 'Internal server error'
+    get:
+      tags:
+        - 'mood-log'
+      operationId: getAllMoodLogsForUserId
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 'List of mood logs retrieved successfully'
+          content:
+            'application/json':
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/MoodLogResponse'
+        "400":
+          description: 'Bad request'
+        "500":
+          description: 'Internal server error'
+
+components:
+  schemas:
+
+    MoodLogRequest:
+      type: object
+      properties:
+        mood:
+          $ref: '#/components/schemas/MoodType'
+        notes:
+          type: string
+        intensity:
+          type: integer
+        tags:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/MoodTag'
+
+    MoodLogResponse:
+      type: object
+      properties:
+        userId:
+          type: string
+        mood:
+          $ref: '#/components/schemas/MoodType'
+        notes:
+          type: string
+        intensity:
+          type: integer
+        tags:
+          type: array
+          uniqueItems: true
+          items:
+              $ref: '#/components/schemas/MoodTag'
+        location:
+          $ref: '#/components/schemas/Location'
+
+    MoodType:
+      type: string
+      enum:
+        - HAPPY
+        - SAD
+        - ANGRY
+        - ANXIOUS
+        - CALM
+        - STRESSED
+        - EXCITED
+        - BORED
+        - TIRED
+        - LONELY
+        - FRUSTRATED
+
+    MoodTag:
+      type: string
+      enum:
+        - WORK
+        - FAMILY
+        - FRIENDS
+        - SUCCESS
+        - RELATIONSHIP
+        - SLEEP
+        - EX
+        - FINANCE
+        - WEATHER
+        - PRODUCTIVITY
+
+    Location:
+      type: object
+      properties:
+        country:
+          type: string
+        city:
+          type: string
+        locationLink:
+          type: string

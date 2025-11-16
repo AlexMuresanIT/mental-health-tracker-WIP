@@ -12,7 +12,7 @@ public record MoodLog(
     MoodType mood,
     String notes,
     Integer intensity,
-    Set<MoodTags> tags,
+    Set<MoodTag> tags,
     Location location,
     OffsetDateTime createdAt) {
 
