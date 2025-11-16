@@ -9,6 +9,7 @@ public class MentalHealthConfig {
 
   private LoginData login;
   private String locationBaseUrl;
+  private String ipAddressBaseUrl;
 
   public LoginData getLogin() {
     return login;
@@ -24,6 +25,14 @@ public class MentalHealthConfig {
 
   public void setLocationBaseUrl(final String locationBaseUrl) {
     this.locationBaseUrl = locationBaseUrl;
+  }
+
+  public String getIpAddressBaseUrl() {
+    return ipAddressBaseUrl;
+  }
+
+  public void setIpAddressBaseUrl(final String ipAddressBaseUrl) {
+    this.ipAddressBaseUrl = ipAddressBaseUrl;
   }
 
   public record LoginData(String username, String password) {}

@@ -24,6 +24,8 @@ ext{
     mapStructVersion = "1.6.3"
     springdocOpenapiUiVersion = "2.3.0"
     wiremockSpringBootVersion = "3.0.2"
+    testContainersMongoVersion = "1.21.3"
+    testContainersVersion = "2.0.2"
 }
 
 dependencies {
@@ -42,6 +44,10 @@ dependencies {
 	testImplementation 'org.springframework.graphql:spring-graphql-test'
 	testImplementation 'org.springframework.security:spring-security-test'
     testImplementation "org.wiremock.integrations:wiremock-spring-boot:${wiremockSpringBootVersion}"
+    testImplementation "org.testcontainers:mongodb:${testContainersMongoVersion}"
+    testImplementation "org.testcontainers:testcontainers:${testContainersVersion}"
+    testImplementation "org.testcontainers:testcontainers-junit-jupiter:${testContainersVersion}"
+
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 

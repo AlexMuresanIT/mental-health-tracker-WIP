@@ -3,7 +3,6 @@ package com.health.mental.controller;
 import com.health.generated.api.MoodLogApi;
 import com.health.generated.model.MoodLogRequest;
 import com.health.generated.model.MoodLogResponse;
-import com.health.mental.config.security.SecurityUtils;
 import com.health.mental.mapper.MoodLogMapper;
 import com.health.mental.service.MoodLogService;
 import io.micrometer.common.util.StringUtils;
@@ -28,9 +27,8 @@ public class MoodLogController implements MoodLogApi {
     if (!isValidMood(moodLogRequest)) {
       return ResponseEntity.badRequest().build();
     }
-    final var userIpAddress = SecurityUtils.getUserIpAddress(null);
     final var domainMoodLog = moodLogMapper.fromDTO(moodLogRequest);
-    moodLogService.addMoodLogForUser(userId, userIpAddress, domainMoodLog);
+    moodLogService.addMoodLogForUser(userId, domainMoodLog);
     return ResponseEntity.ok().build();
   }
 

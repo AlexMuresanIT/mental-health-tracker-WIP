@@ -12,21 +12,24 @@ public class MoodLogService {
   private final MoodLogRepository moodLogRepository;
   private final UserService userService;
   private final LocationService locationService;
+  private final IpAddressService ipAddressService;
 
   public MoodLogService(
       final MoodLogRepository moodLogRepository,
       final UserService userService,
-      final LocationService locationService) {
+      final LocationService locationService,
+      final IpAddressService ipAddressService) {
     this.moodLogRepository = moodLogRepository;
     this.userService = userService;
     this.locationService = locationService;
+    this.ipAddressService = ipAddressService;
   }
 
-  public void addMoodLogForUser(
-      final String userId, final String ipAddress, final MoodLog moodLog) {
+  public void addMoodLogForUser(final String userId, final MoodLog moodLog) {
     final var maybeUser = userService.findById(userId);
     maybeUser.ifPresent(
         user -> {
+          final var ipAddress = ipAddressService.fetchIpAddress();
           final var location = locationService.getLocationForIpAddress(ipAddress);
           final var createdAt = OffsetDateTime.now();
           final var enhancedMoodLog = MoodLog.enhanceMoodLog(userId, moodLog, location, createdAt);

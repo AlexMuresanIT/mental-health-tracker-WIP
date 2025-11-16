@@ -15,6 +15,7 @@ mental-health:
     username: ${USERNAME}
     password: ${PASSWORD}
   location-base-url: http://ip-api.com/json/
+  ip-address-base-url: https://api.ipify.org?format=json
 
 springdoc:
   api-docs:
