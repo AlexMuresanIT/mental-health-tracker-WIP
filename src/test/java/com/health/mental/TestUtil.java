@@ -11,7 +11,6 @@ import com.health.generated.model.MoodLogRequest;
 import com.health.mental.domain.*;
 import com.health.mental.domain.dto.MoodLogDTO;
 import com.health.mental.domain.dto.UserDTO;
-import com.health.mental.service.LocationServiceTest;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
@@ -66,8 +65,7 @@ public class TestUtil {
 
   public static void initializeURL(final String url, final String testDataPath) throws IOException {
     final var stream =
-        Objects.requireNonNull(
-            TestUtil.class.getClassLoader().getResourceAsStream(testDataPath));
+        Objects.requireNonNull(TestUtil.class.getClassLoader().getResourceAsStream(testDataPath));
     stubFor(
         get(urlMatching(url))
             .willReturn(
